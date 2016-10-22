@@ -14,10 +14,31 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.contrib import admin
+from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
+from auction.views import UserViewSet, GoodViewSet, BidViewSet, UserBidViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'goods', GoodViewSet)
+router.register(r'bids', BidViewSet)
+
+# router = routers.SimpleRouter()
+# router.register(r'users', UserViewSet)
+# router.register(r'goods', GoodViewSet)
+# router.register(r'bids', BidViewSet)
+
+users_router = routers.NestedSimpleRouter(
+    router, r'users', lookup='user'
+)
+users_router.register(r'bids', UserBidViewSet)
 
 urlpatterns = [
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v1/', include(users_router.urls)),
     url(r'^admin/', admin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^.*$', IndexView.as_view(), name='index'),
 ]

@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
 from datetime import datetime
 
 
 # Create your models here.
-class Item(models.Model):
+class Good(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(default='')
     image = models.CharField(max_length=100, blank=True, default='')
@@ -15,7 +14,6 @@ class Item(models.Model):
     start_price = models.IntegerField()
     bid_range = models.IntegerField()
     bidder_num = models.IntegerField(default=0)
-    # current_bid = models.ForeignKey('auction.Bid', related_name='item')
     post_time = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -35,12 +33,10 @@ class Item(models.Model):
         ordering = ('post_time',)
 
 
-
 class Bid(models.Model):
-    bidder = models.ForeignKey(User)
-    # bidder = models.ForeignKey('User', related_name='bid')
-    bid_item = models.ForeignKey(Item)
-    # bid_item = models.ForeignKey('auction.Item', related_name='bid')
+    bidder = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='bids')
+    #  bidfor = models.ForeignKey('auction.Good', on_delete=models.CASCADE, related_name='bids')
+    bidfor = models.ForeignKey('auction.Good', on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
     amount = models.IntegerField()
 
