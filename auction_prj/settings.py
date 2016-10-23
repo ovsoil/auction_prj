@@ -58,7 +58,9 @@ ROOT_URLCONF = 'auction_prj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'frontend')
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,9 +123,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+STATIC_URL = '/frontend/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "frontend"),
+    # os.path.join(BASE_DIR, "static"),
+]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 # rest_framework
-REST_FRAMEWORK = {
-    'PAGE_SIZE': 10
-}
+# REST_FRAMEWORK = {
+#     'PAGE_SIZE': 10
+# }

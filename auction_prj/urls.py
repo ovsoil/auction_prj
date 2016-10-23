@@ -1,4 +1,3 @@
-from auction_prj.views import IndexView
 """auction_prj URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -19,16 +18,17 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 from auction.views import UserViewSet, GoodViewSet, BidViewSet, UserBidViewSet
+from auction_prj.views import IndexView, AngularView
 
-router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'goods', GoodViewSet)
-router.register(r'bids', BidViewSet)
-
-# router = routers.SimpleRouter()
+# router = DefaultRouter()
 # router.register(r'users', UserViewSet)
 # router.register(r'goods', GoodViewSet)
 # router.register(r'bids', BidViewSet)
+
+router = routers.SimpleRouter()
+router.register(r'users', UserViewSet)
+router.register(r'goods', GoodViewSet)
+router.register(r'bids', BidViewSet)
 
 users_router = routers.NestedSimpleRouter(
     router, r'users', lookup='user'
@@ -40,5 +40,8 @@ urlpatterns = [
     url(r'^api/v1/', include(users_router.urls)),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # url(r'^(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular'),
+    # url(r'^(?P<folder>[-_\w]+)/(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular_folder'),
+    # url(r'^auction-gallery/auction-gallery', AngularView.as_view(), name='angular'),
     url(r'^.*$', IndexView.as_view(), name='index'),
 ]

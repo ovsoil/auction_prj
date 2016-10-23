@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Auction Web</title>
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
 
-  <base href="/" />
+{% block content %}
+<div class="container content" ng-app="auctionApp">
+  <div ng-view>Loading...</div>
+</div>
+{% endblock content %}
 
-  {% include 'stylesheets.html' %}
-</head>
-
-<body>
-
-  <p>Hello, My Auction Web</p>
-
-  {% include 'javascripts.html' %}
-</body>
-</html>
+{% block extra_javascript %}
+<script type="text/javascript" src="{% static 'app.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'app.config.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/core.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/good/good.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/good/good.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'auction-gallery/auction-gallery.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'auction-gallery/auction-gallery.component.js' %}"></script>
+<script type="text/javascript" src="{% static 'auction-room/auction-room.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'auction-room/auction-room.component.js' %}"></script>
+{% endblock extra_javascript %}
