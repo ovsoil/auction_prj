@@ -27,11 +27,11 @@ class GoodViewSet(viewsets.ModelViewSet):
     serializer_class = GoodSerializer
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    # @detail_route
-    # @detail_route(renderer_classes=(renderers.StaticHTMLRenderer,))
-    # def highlight(self, request, *args, **kwargs):
-    #     snippet = self.get_object()
-    #     return Response(snippet.highlighted)
+    @detail_route
+    @detail_route(renderer_classes=(renderers.StaticHTMLRenderer,))
+    def details(self, request, *args, **kwargs):
+        good = self.get_object()
+        return Response(good.details)
 
 
 class BidViewSet(viewsets.ModelViewSet):

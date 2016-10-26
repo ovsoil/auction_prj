@@ -1,15 +1,34 @@
 from rest_framework import serializers
 from auction.models import Good, Bid
 from django.contrib.auth.models import User
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 class GoodSerializer(serializers.HyperlinkedModelSerializer):
+    # details = serializers.HyperlinkedIdentityField(view_name='good-details', format='html')
+    # images = serializers.ListField(child=serializers.ImageField(allow_empty_file=True))
+    image01 = serializers.SerializerMethodField()
+    image02 = serializers.SerializerMethodField()
+    image03 = serializers.SerializerMethodField()
+    image04 = serializers.SerializerMethodField()
 
     class Meta:
         model = Good
-        fields = ('url', 'id', 'name', 'description', 'image', 'start_time', 'stop_time',
-                  'start_price', 'bid_range', 'bidder_num', 'status', 'post_time')
+        fields = ('url', 'id', 'name', 'description', 'image01', 'image02', 'image03', 'image04', 'start_time', 'stop_time',
+                  'start_price', 'bid_range', 'bidder_num', 'status', 'post_time', 'details')
         read_only_fields = ('post_time',)
+
+    def get_image01(self, obj):
+        return staticfiles_storage.url(obj.image01.name)
+
+    def get_image02(self, obj):
+        return staticfiles_storage.url(obj.image02.name)
+
+    def get_image03(self, obj):
+        return staticfiles_storage.url(obj.image03.name)
+
+    def get_image04(self, obj):
+        return staticfiles_storage.url(obj.image04.name)
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

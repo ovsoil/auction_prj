@@ -3,7 +3,7 @@
     <div class="col-lg-4" ng-repeat="good in $ctrl.goods">
       <div class="thumbnail">
         <a href="/auction-room/{{good.id}}" class="thumb">
-          <img ng-src="frontend/images/{{good.image}}" alt="{{good.name}}" />
+          <img ng-src="{{good.image01}}" alt="{{good.name}}" />
         </a>
         <div class="caption">
           <h3>{{ good.name }}</h3>

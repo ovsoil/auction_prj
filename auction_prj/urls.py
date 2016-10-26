@@ -42,6 +42,5 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular'),
     # url(r'^(?P<folder>[-_\w]+)/(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular_folder'),
-    # url(r'^auction-gallery/auction-gallery', AngularView.as_view(), name='angular'),
     url(r'^.*$', IndexView.as_view(), name='index'),
 ]

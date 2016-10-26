@@ -4,7 +4,7 @@
 angular.
   module('auctionGallery').
   component('auctionGallery', {
-    templateUrl: '/frontend/auction-gallery/auction-gallery.html',
+    templateUrl: '/static/auction-gallery/auction-gallery.html',
     controller: ['Good',
       function AuctionGalleryController(Good){
         this.goods = Good.query();

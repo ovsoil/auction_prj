@@ -18,9 +18,6 @@ class AngularView(TemplateView):
         folder = self.kwargs.get('folder')
         if template_name is None:
             return
-        print template_name
-        print folder
-        print "======================="
         if folder is None:
             folder = ''
         if template_name[-1] == '/':
@@ -30,6 +27,5 @@ class AngularView(TemplateView):
 
     @method_decorator(ensure_csrf_cookie)
     def dispath(self, request, *args, **kwargs):
-        print "hsafkasdjkfjsdkjfkaselllo"
         return super(AngularView, self).dispath(request, *args, **kwargs)
 

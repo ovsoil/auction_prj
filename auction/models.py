@@ -8,13 +8,17 @@ from datetime import datetime
 class Good(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(default='')
-    image = models.CharField(max_length=100, blank=True, default='')
+    image01 = models.ImageField(upload_to='images/', blank=True, null=True, default='01.jpg')
+    image02 = models.ImageField(upload_to='images/', blank=True, null=True, default='02.jpg')
+    image03 = models.ImageField(upload_to='images/', blank=True, null=True, default='03.jpg')
+    image04 = models.ImageField(upload_to='images/', blank=True, null=True, default='04.jpg')
     start_time = models.DateTimeField(null=True)
     stop_time = models.DateTimeField(null=True)
     start_price = models.IntegerField()
     bid_range = models.IntegerField()
     bidder_num = models.IntegerField(default=0)
     post_time = models.DateTimeField(auto_now_add=True)
+    details = models.TextField(default='')
 
     @property
     def status(self):
