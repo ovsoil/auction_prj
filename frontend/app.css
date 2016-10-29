@@ -1,0 +1,76 @@
+/* View: auction home */
+/* .home-thumb { */
+/*   float: left; */
+/*   height: 400px; */
+/*   margin: -0.5em 1em 1.5em 0; */
+/*   padding-bottom: 1em; */
+/*   width: 400px; */
+/* } */
+
+/* .home-thumb { */
+/*   background-color: white; */
+/*   float: left; */
+/*   height: 400px; */
+/*   margin-bottom: 2em; */
+/*   margin-right: 3em; */
+/*   padding: 2em; */
+/*   width: 400px; */
+/* } */
+
+/* .good-image { */
+/*   background-color: white; */
+/*   float: left; */
+/*   height: 400px; */
+/*   margin-bottom: 2em; */
+/*   margin-right: 3em; */
+/*   padding: 2em; */
+/*   width: 400px; */
+/* } */
+
+/* .good-images { */
+/*   background-color: white; */
+/*   float: left; */
+/*   height: 450px; */
+/*   overflow: hidden; */
+/*   position: relative; */
+/*   width: 450px; */
+/* } */
+
+/* .good-thumbs img { */
+/*   height: 95px; */
+/*   padding: 1em; */
+/*   width: 96px; */
+/* } */
+
+/* .good-thumbs li { */
+/*   background-color: white; */
+/*   border: 1px solid black; */
+/*   cursor: pointer; */
+/*   display: inline-block; */
+/*   margin: 1em; */
+/* } */
+
+
+/* .good { */
+/*   background-color: white; */
+/*   display: none; */
+/*   float: left; */
+/*   height: 400px; */
+/*   margin-bottom: 2em; */
+/*   margin-right: 3em; */
+/*   padding: 2em; */
+/*   width: 400px; */
+/* } */
+
+/* .good:first-child { */
+/*   display: block; */
+/* } */
+
+/* .good-images { */
+/*   background-color: white; */
+/*   /1* float: left; *1/ */
+/*   /1* height: 450px; *1/ */
+/*   overflow: hidden; */
+/*   position: relative; */
+/*   /1* width: 450px; *1/ */
+/* } */

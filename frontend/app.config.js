@@ -15,6 +15,18 @@ angular.
         when('/auction-room/:goodId', {
           template: '<auction-room></auction-room>'
         }).
+        when('/register', {
+          template: '<register></register>'
+        }).
+        when('/login', {
+          template: '<login></login>'
+        }).
+        when('/+:userId', {
+          template: '<account>/<account>'
+        }).
+        when('/+:userId/settings', {
+          template: '<settings>/<settings>'
+        }).
         otherwise('/');
     }
   ]);

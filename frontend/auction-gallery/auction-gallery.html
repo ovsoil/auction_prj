@@ -1,9 +1,9 @@
-<div class="container items">
+<div class="container gallery">
   <div class="row">
-    <div class="col-lg-4" ng-repeat="good in $ctrl.goods">
-      <div class="thumbnail">
-        <a href="/auction-room/{{good.id}}" class="thumb">
-          <img ng-src="{{good.image01}}" alt="{{good.name}}" />
+    <div class="col-sm-6 col-md-3" ng-repeat="good in $ctrl.goods">
+      <div class="home-thumb">
+        <a href="/auction-room/{{good.id}}">
+          <img ng-src="{{good.images[2]}}" class="img-responsive" alt="{{good.name}}:400x400" />
         </a>
         <div class="caption">
           <h3>{{ good.name }}</h3>

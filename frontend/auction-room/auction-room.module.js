@@ -3,5 +3,6 @@
 // Define the `auctionRoom` module
 angular.module('auctionRoom', [
   'ngRoute',
-  'core.good'
+  'core.good',
+  'timer'
 ]);

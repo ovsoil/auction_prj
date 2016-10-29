@@ -2,11 +2,16 @@
 
 angular.
   module('auctionApp', [
-  'ngRoute',
-  'core',
-  'auctionGallery',
-  'auctionRoom'
-]);
+    'ngRoute',
+    'ngAnimate',
+    'core',
+    'auctionGallery',
+    'auctionRoom',
+    'register',
+    'login',
+    'account',
+    'settings'
+  ]);
 
 angular.
   module('auctionApp').

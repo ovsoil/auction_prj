@@ -2,11 +2,10 @@
 {% load i18n %}
 {% load staticfiles %}
 
-{% block content %}
-<div class="container content" ng-app="auctionApp">
-  <div ng-view>Loading...</div>
-</div>
-{% endblock content %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'app.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'app.animations.css' %}" />
+{% endblock extra_css %}
 
 {% block extra_javascript %}
 <script type="text/javascript" src="{% static 'app.module.js' %}"></script>
@@ -14,8 +13,26 @@
 <script type="text/javascript" src="{% static 'core/core.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/good/good.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/good/good.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/user/user.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/user/user.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/authentication/authentication.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/authentication/authentication.service.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-gallery/auction-gallery.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-gallery/auction-gallery.component.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-room/auction-room.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-room/auction-room.component.js' %}"></script>
+<script type="text/javascript" src="{% static 'register/register.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'register/register.component.js' %}"></script>
+<script type="text/javascript" src="{% static 'login/login.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'login/login.component.js' %}"></script>
+<script type="text/javascript" src="{% static 'account/account.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'account/account.component.js' %}"></script>
+<script type="text/javascript" src="{% static 'settings/settings.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'settings/settings.component.js' %}"></script>
 {% endblock extra_javascript %}
+
+{% block content %}
+<div class="container" ng-app="auctionApp">
+  <div ng-view>Loading...</div>
+</div>
+{% endblock content %}

@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auction App</title>
 
     <base href="/" />
-
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" />
 
     <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-cookies/angular-cookies.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-animate/angular-animate.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/moment/min/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/moment/min/locales.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/humanize-duration/humanize-duration.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-timer/dist/angular-timer.js' %}"></script>
   </head>
 
   <body>
     {% include 'navbar.html' %}
-
-    {% block content %}{% endblock content %}
+    {% block extra_css %}{% endblock extra_css %}
     {% block extra_javascript %}{% endblock extra_javascript %}
-
+    {% block content %}{% endblock content %}
     <!-- for floor -->
-    <p>floor</p>
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">2016 &#xA9; <a href="http://zine.bg/" target="_blank">ShangYuWang</a></p>
+      </div>
 
   </body>
 </html>
 
-
+</div>
 

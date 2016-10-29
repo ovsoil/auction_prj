@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
-from auction.views import UserViewSet, GoodViewSet, BidViewSet, UserBidViewSet
+from auction.views import UserViewSet, GoodViewSet, BidViewSet, UserBidViewSet, LoginView, LogoutView
 from auction_prj.views import IndexView, AngularView
 
 # router = DefaultRouter()
@@ -38,6 +38,8 @@ users_router.register(r'bids', UserBidViewSet)
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(users_router.urls)),
+    url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
+    url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular'),
