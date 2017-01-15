@@ -2,8 +2,9 @@
 
 // Define the `core` module
 angular.module('core', [
-  'core.good', 
-  'core.authentication',
-  'core.user'
+    'core.good', 
+    'core.user',
+    'core.auth',
+    'core.authentication'
 
 ]);

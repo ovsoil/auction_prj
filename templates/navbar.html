@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as ctrl">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#we-are-borg-navbar">
@@ -11,15 +11,14 @@
     </div> <!-- ./navbar-header -->
 
     <div class="collapse navbar-collapse" id="we-are-borg-navbar">
-      <ul class="nav navbar-nav pull-right">
-        {% if user.is_authenticated %}
-          <li><a href="/+{{ user.id }}">+{{ user.username }}</a></li>
-          <li><a href="/+{{ user.id }}/settings">Settings</a></li>
-          <li><a href="javascript:void(0)" ng-click="vm.logout()">Logout</a></li>
-        {% else %}
+      <ul class="nav navbar-nav pull-right" ng-show="ctrl.authenticated">
+          <li><a href="+{{ user.id }}">{{ user.username }}</a></li>
+          <li><a href="+{{ user.id }}/settings">Settings</a></li>
+          <li><a href="javascript:void(0)" ng-click="ctrl.logout()">Logout</a></li>
+      </ul>
+      <ul class="nav navbar-nav pull-right" ng-hide="ctrl.authenticated">
           <li><a href="/login">Login</a></li>
           <li><a href="/register">Register</a></li>
-        {% endif %}
       </ul>
     </div>
 

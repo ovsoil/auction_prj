@@ -1,3 +1,4 @@
+from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from auction.models import Good, Bid
 from django.contrib.auth.models import User
@@ -24,22 +25,74 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('url', 'id', 'username', 'password', 'first_name',
+#                   'last_name', 'email')
+#         read_only_fields = ('id',)
+#         write_only_fields = ('password',)
+
+#     def restore_object(self, attrs, instance=None):
+#         user = super(UserSerializer, self).restore_object(attrs, instance)
+#         user.set_password(attrs['password'])
+#         return user
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    bids = serializers.HyperlinkedRelatedField(queryset=Bid.objects.all(), view_name='bid-detail', many=True)
+    # bids = serializers.HyperlinkedRelatedField(queryset=Bid.objects.all(), view_name='bid-detail', many=True)
 
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'email', 'bids')
+        fields = ('url', 'id', 'username', 'email', 'password')
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        # user = User.objects.create(
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.username)
+        password = validated_data.get('password', None)
+        instance.set_password(password)
+        instance.save()
+        update_session_auth_hash(self.context.get('request'), instance)
+        return instance
 
 
 class BidSerializer(serializers.HyperlinkedModelSerializer):
-    bidder = serializers.ReadOnlyField(source='bidder.username')
-    bidfor = serializers.ReadOnlyField(source='bidfor.name')
+    user = serializers.ReadOnlyField(source='user.username')
+    #  user = serializers.HyperlinkedRelatedField(
+    #      view_name='user-detail',
+    #      #  lookup_field='username',
+    #      lookup_field='pk',
+    #      many=False,
+    #      read_only=True
+    #  )
+    good = serializers.ReadOnlyField(source='good.name')
+    #  good = serializers.HyperlinkedRelatedField(
+    #      view_name='good-detail',
+    #      #  lookup_field='id',
+    #      lookup_field='pk',
+    #      many=False,
+    #      read_only=True
+    #  )
 
     class Meta:
         model = Bid
-        fields = ('url', 'id', 'time', 'amount', 'bidder', 'bidfor')
+        fields = ('url', 'id', 'time', 'amount', 'user', 'good')
+
+    def create(self, validated_data):
+        print validated_data
+        return Bid.objects.create(**validated_data)
 
     def get_validation_exclusions(self, *args, **kwargs):
         exclusions = super(BidSerializer, self).get_validation_exclusions()
-        return exclusions + ['bidder', 'bidfor']
+        return exclusions + ['user', 'good']

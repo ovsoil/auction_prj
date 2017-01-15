@@ -26,14 +26,20 @@
     * @memberOf thinkster.users.controllers.UserController
     */
     function activate() {
-      User.get({userId: $routeParams.userId}).then(userSuccessFn, userErrorFn);
+      // User.get({userId: $routeParams.userId}, function(user) {
+      //     self.user = user;
+      // });
+      User.get({userId: $routeParams.userId}).
+            $promise.
+            then(userSuccessFn).
+            catch(userErrorFn);
 
       /**
       * @name userSuccessUser
       * @desc Update `user` on viewmodel
       */
       function userSuccessFn(data, status, headers, config) {
-        self.user = data.data;
+        self.user = data;
       }
 
 

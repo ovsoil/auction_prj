@@ -17,7 +17,9 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
-from auction.views import UserViewSet, GoodViewSet, BidViewSet, UserBidViewSet, LoginView, LogoutView
+from auction.views import UserViewSet, GoodViewSet, BidViewSet
+from auction.views import UserBidViewSet, GoodBidViewSet
+from auction.views import AuthView  # LoginView, LogoutView
 from auction_prj.views import IndexView, AngularView
 
 # router = DefaultRouter()
@@ -33,16 +35,19 @@ router.register(r'bids', BidViewSet)
 users_router = routers.NestedSimpleRouter(
     router, r'users', lookup='user'
 )
-users_router.register(r'bids', UserBidViewSet)
+users_router.register(r'bids', UserBidViewSet, base_name='user-bids')
+
+goods_router = routers.NestedSimpleRouter(
+    router, r'goods', lookup='good'
+)
+goods_router.register(r'bids', GoodBidViewSet, base_name='good-bids')
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(users_router.urls)),
-    url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
-    url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^api/v1/', include(goods_router.urls)),
+    url(r'^api/v1/auth/$', AuthView.as_view(), name='authenticate'),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # url(r'^(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular'),
-    # url(r'^(?P<folder>[-_\w]+)/(?P<template_name>[-_\w]+/$)', AngularView.as_view(), name='angular_folder'),
     url(r'^.*$', IndexView.as_view(), name='index'),
 ]

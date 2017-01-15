@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="auctionApp">
   <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auction App</title>
@@ -21,16 +21,19 @@
   </head>
 
   <body>
-    {% include 'navbar.html' %}
+    <!-- css script -->
     {% block extra_css %}{% endblock extra_css %}
     {% block extra_javascript %}{% endblock extra_javascript %}
+
+    <!-- navbar -->
+    {% include 'navbar.html' %}
+    <!-- content -->
     {% block content %}{% endblock content %}
     <!-- for floor -->
     <div id="footer">
       <div class="container">
-        <p class="text-muted">2016 &#xA9; <a href="http://zine.bg/" target="_blank">ShangYuWang</a></p>
+        <p class="text-muted">2016 &#xA9; <a href="http://syw.com/" target="_blank">ShangYuWang</a></p>
       </div>
-
   </body>
 </html>
 

@@ -1,46 +1,39 @@
-/**
- * Register controller
- * @namespace register
- */
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('register')
-    .component('register', {
-      templateUrl: '/static/register/register.html',
-      controller: RegisterController
-    });
+    angular
+        .module('register')
+        .component('register', {
+            templateUrl: '/static/register/register.html',
+            controller: RegisterController
+        });
 
-  RegisterController.$inject = ['$location', 'Authentication'];
+    RegisterController.$inject = ['$location', 'Authentication', 'User'];
 
-  /**
-   * @namespace RegisterController
-   */
-  function RegisterController($location, Authentication) {
-    self = this;
-    self.register = register;
-    activate();
+    function RegisterController($location, Authentication, User) {
+        self = this;
+        self.register = register;
+        activate();
 
-    /**
-     * @name activate
-     * @desc Actions to be performed when this controller is instantiated
-     * @memberOf thinkster.authentication.controllers.RegisterController
-     */
-    function activate() {
-      // If the user is authenticated, they should not be here.
-      if (Authentication.isAuthenticated()) {
-        $location.url('/');
-      }
+        function activate() {
+            // If the user is authenticated, they should not be here.
+            if (Authentication.isAuthenticated()) {
+                $location.url('/');
+            }
+        }
+
+        function register($event){
+            User.create({
+                username: self.username,
+                email: self.email,
+                password: self.password
+            }).
+                $promise.
+                then(
+                    Authentication.login(self.email, self.password)).
+                catch(function(data){
+                    alert(data.data.username);
+                });
+        }
     }
-
-    /**
-     * @name register
-     * @desc Register a new user
-     * @memberOf thinkster.authentication.controllers.RegisterController
-     */
-    function register() {
-      Authentication.register(self.email, self.password, self.username);
-    }
-  }
 })();

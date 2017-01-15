@@ -1,4 +1,3 @@
-<!-- <div class="container" ng-controller=auctionCtrl> -->
 <div class="container">
   <div class="row clearfix">
     <div class="col-sm-12 col-md-6 column">
@@ -12,42 +11,6 @@
       </div>
     </div>
 
-    <!-- <div id="myCarousel" class="carousel slide"> -->
-    <!--     <1!-- 轮播（Carousel）指标 --1> -->
-    <!--     <ol class="carousel-indicators"> -->
-    <!--         <li data-target="#myCarousel" data-slide-to="0" class="active"></li> -->
-    <!--         <li data-target="#myCarousel" data-slide-to="1"></li> -->
-    <!--         <li data-target="#myCarousel" data-slide-to="2"></li> -->
-    <!--         <li data-target="#myCarousel" data-slide-to="3"></li> -->
-    <!--     </ol> -->   
-    <!--     <1!-- 轮播（Carousel）项目 --1> -->
-    <!--     <div class="carousel-inner"> -->
-    <!--         <div class="item active"> -->
-    <!--           <img ng-src="{{$ctrl.good.images[0]}}" class="img-responsive" alt="First slide"> -->
-    <!--             <div class="carousel-caption">1</div> -->
-    <!--         </div> -->
-    <!--         <div class="item"> -->
-    <!--             <img ng-src="{{$ctrl.good.images[1]}}" class="img-responsive" alt="Second slide"> -->
-    <!--             <div class="carousel-caption">2</div> -->
-    <!--         </div> -->
-    <!--         <div class="item"> -->
-    <!--             <img ng-src="{{$ctrl.good.images[2]}}" class="img-responsive" alt="Third slide"> -->
-    <!--             <div class="carousel-caption">3</div> -->
-    <!--         </div> -->
-    <!--         <div class="item"> -->
-    <!--             <img ng-src="{{$ctrl.good.images[3]}}" class="img-responsive" alt="Third slide"> -->
-    <!--             <div class="carousel-caption">3</div> -->
-    <!--         </div> -->
-    <!--     </div> -->
-    <!--     <1!-- 轮播（Carousel）导航 --1> -->
-    <!--     <a class="left carousel-control" href="#myCarousel" data-slide="prev"> -->
-    <!--       <span class="glyphicon glyphicon-chevron-left"></span> -->
-    <!--     </a> -->
-    <!--     <a class="right carousel-control" href="#myCarousel" data-slide="next"> -->
-    <!--       <span class="glyphicon glyphicon-chevron-right"></span> -->
-    <!--     </a> -->
-    <!-- </div> -->
-
     <div class="col-md-6 column">
       <h3>
         {{$ctrl.good.name}}
@@ -56,100 +19,86 @@
       {{$ctrl.good.description}}
       </p>
 
-      <div ng-if="$ctrl.good.status == 'comming'">
+      <div ng-if="$ctrl.status == 'comming'">
         <blockquote>
           <p>即将开拍</p>
-          <p>开始时间：{{ $ctrl.good.start_time | date:'yyyy/MM/dd'}}</p> 
+          <p>开始时间：{{ $ctrl.good.start_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
+          <p>起拍价：{{ $ctrl.good.start_price }} </p>
+          <p>加价幅度：{{ $ctrl.good.bid_range }} </p>
           <small>
-            <timer countdown="10" 
+            <timer countdown="$ctrl.before_start"
                    max-time-unit="'day'"
                    interval="1000"
-                   finish-callback="$ctrl.setImage($ctrl.good.images[1])">
-            距离开拍：{{seconds}} second{{secondsS}}
+                   finish-callback="$ctrl.auction_begin()">
+            距离开拍：{{days}} day{{daysS}}, {{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
             </timer>
-
           </small>
         </blockquote>
       </div>
 
-      <div ng-if="$ctrl.good.status == 'going'">
+      <div ng-if="$ctrl.status == 'going'">
         <blockquote>
           <p>拍卖中</p>
-          <p>结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd'}}</p> 
-          <timer countdown="10" 
-                 max-time-unit="'day'"
+          <p>结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
+          <p>起拍价：{{ $ctrl.good.start_price }} </p>
+          <p>加价幅度：{{ $ctrl.good.bid_range }} </p>
+          <timer countdown="$ctrl.before_stop"
+                 max-time-unit="'hour'"
                  interval="1000"
-                 finish-callback="callbackTimer.finished()">
-          距离结束：{{seconds}} second{{secondsS}}
+                 finish-callback="$ctrl.auction_done">
+          距离结束：{{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
           </timer>
           <small>
             <p>
-            N 人出价
+            {{$ctrl.bids.length}} 人次出价
             </p>
           </small>
-          <button type="button" class="btn btn-default">出价</button>
         </blockquote>
+        <div>
+          <form role="form" ng-submit="$ctrl.submit_bid()">
+            <input ng-model="$ctrl.amount"> </input>
+            <button type="submit" class="btn btn-default">出价</button>
+          </form>
+        </div>
       </div>
 
-      <div ng-if="$ctrl.good.status == 'done'">
+      <div ng-if="$ctrl.status == 'done'">
         <blockquote>
           <p>拍卖结束</p>
-          <p>结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd'}}</p> 
+          <p>结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
+          <p>起拍价：{{ $ctrl.good.start_price }} </p>
+          <p>加价幅度：{{ $ctrl.good.bid_range }} </p>
           <small>
-
             <p>
-            N 人出价
+            {{$ctrl.bids.length}} 人次出价
             </p>
           </small>
+          <p>成交价格：{{ $ctrl.current_bid.amount }} </p>
         </blockquote>
-      </div>
-
-      <div>
-        <timer countdown="3" interval="1000" finish-callback="$ctrl.setImage($ctrl.good.images[1])">{{seconds}} second{{secondsS}}</timer>
       </div>
 
     </div>
   </div>
   <div class="row clearfix">
-    <div class="col-md-12 column">
+    <div class="col-sm-12 col-md-6 column">
       <div class="page-header">
         <h1>
           <small>详情</small>
         </h1>
       </div>
-    </div>
-  </div>
-  <div class="row clearfix">
-    <div class="col-md-12 column">
       <dl>
         <dt>
         Description lists
         </dt>
         <dd>
-        A description list is perfect for defining terms.
-        </dd>
-        <dt>
-        Euismod
-        </dt>
-        <dd>
-        Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-        </dd>
-        <dd>
-        Donec id elit non mi porta gravida at eget metus.
-        </dd>
-        <dt>
-        Malesuada porta
-        </dt>
-        <dd>
-        Etiam porta sem malesuada magna mollis euismod.
-        </dd>
-        <dt>
-        Felis euismod semper eget lacinia
-        </dt>
-        <dd>
-        Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+        {{$ctrl.good.description}}
         </dd>
       </dl>
+    </div>
+    <div class="col-sm-12 col-md-6 column">
+      <div ng-repeat="bid in $ctrl.bids">
+        <p>{{bid.user}}, {{bid.amount}}</p>
+      </div>
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.contrib.auth.models import User
 
 from django.db import models
 from datetime import datetime
@@ -34,13 +35,15 @@ class Good(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('post_time',)
+        ordering = ('start_time',)
 
 
 class Bid(models.Model):
-    bidder = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='bids')
-    #  bidfor = models.ForeignKey('auction.Good', on_delete=models.CASCADE, related_name='bids')
-    bidfor = models.ForeignKey('auction.Good', on_delete=models.CASCADE)
+    #  user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #  good = models.ForeignKey('auction.Good', on_delete=models.CASCADE, related_name='bids')
+    #  good = models.ForeignKey('auction.Good', on_delete=models.CASCADE)
+    good = models.ForeignKey(Good, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
     amount = models.IntegerField()
 
@@ -48,4 +51,4 @@ class Bid(models.Model):
         ordering = ('time', )
 
     def __unicode__(self):
-        return '{0}: {1}'.format(self.bidder, self.amount)
+        return '{0}: {1}'.format(self.user, self.amount)

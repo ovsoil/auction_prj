@@ -15,8 +15,13 @@
 <script type="text/javascript" src="{% static 'core/good/good.service.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/user/user.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/user/user.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/bid/bid.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/bid/bid.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/auth/auth.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/auth/auth.service.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/authentication/authentication.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/authentication/authentication.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'controllers/navbar.controller.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-gallery/auction-gallery.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-gallery/auction-gallery.component.js' %}"></script>
 <script type="text/javascript" src="{% static 'auction-room/auction-room.module.js' %}"></script>
@@ -32,7 +37,7 @@
 {% endblock extra_javascript %}
 
 {% block content %}
-<div class="container" ng-app="auctionApp">
+<div class="container">
   <div ng-view>Loading...</div>
 </div>
 {% endblock content %}

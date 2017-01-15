@@ -1,8 +1,9 @@
 (function (){
-  'use strict';
+    'use strict';
 
-  // Define the `register` module
-  angular.module('register', [
-    'core.authentication'
-  ]);
+    // Define the `register` module
+    angular.module('register', [
+        'core.authentication',
+        'core.user'
+    ]);
 })();

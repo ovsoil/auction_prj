@@ -1,6 +1,10 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular.module('core.authentication', ['ngCookies']);
+    angular.module('core.authentication', [
+        'ngCookies',
+        'core.auth',
+        'core.user'
+    ]);
 
 })();
