@@ -90,7 +90,6 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'id', 'time', 'amount', 'user', 'good')
 
     def create(self, validated_data):
-        print validated_data
         return Bid.objects.create(**validated_data)
 
     def get_validation_exclusions(self, *args, **kwargs):

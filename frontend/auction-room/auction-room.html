@@ -45,7 +45,7 @@
           <timer countdown="$ctrl.before_stop"
                  max-time-unit="'hour'"
                  interval="1000"
-                 finish-callback="$ctrl.auction_done">
+                 finish-callback="$ctrl.auction_done()">
           距离结束：{{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
           </timer>
           <small>
@@ -90,9 +90,8 @@
         <dt>
         Description lists
         </dt>
-        <dd>
-        {{$ctrl.good.description}}
-        </dd>
+        <p></p>
+        <p ng-bind-html = "$ctrl.details"></p>
       </dl>
     </div>
     <div class="col-sm-12 col-md-6 column">

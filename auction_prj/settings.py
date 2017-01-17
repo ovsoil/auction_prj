@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'redactor',
     'rest_framework',
     'auction'
 ]
@@ -67,6 +68,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -137,7 +139,7 @@ STATICFILES_FINDERS = (
 STATIC_URL = '/static/'
 
 # Media files
-# MEDIA_ROOT = os.path.join(BASE_DIR, "data"),
+#  MEDIA_ROOT = os.path.join(BASE_DIR, "data"),
 MEDIA_ROOT = 'data'
 MEDIA_URL = '/media/'
 
@@ -156,3 +158,5 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 10
 }
 
+REDACTOR_OPTIONS = {'lang': 'en'}
+REDACTOR_UPLOAD = 'upload/'

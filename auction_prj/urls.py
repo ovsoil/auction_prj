@@ -21,6 +21,10 @@ from auction.views import UserViewSet, GoodViewSet, BidViewSet
 from auction.views import UserBidViewSet, GoodBidViewSet
 from auction.views import AuthView  # LoginView, LogoutView
 from auction_prj.views import IndexView, AngularView
+#  from django.contrib.staticfiles import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 # router = DefaultRouter()
 # router.register(r'users', UserViewSet)
@@ -42,12 +46,20 @@ goods_router = routers.NestedSimpleRouter(
 )
 goods_router.register(r'bids', GoodBidViewSet, base_name='good-bids')
 
+print settings.MEDIA_URL
+print settings.MEDIA_ROOT
+print static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(users_router.urls)),
     url(r'^api/v1/', include(goods_router.urls)),
+    url(r'^redactor/', include('redactor.urls')),
     url(r'^api/v1/auth/$', AuthView.as_view(), name='authenticate'),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
     url(r'^.*$', IndexView.as_view(), name='index'),
 ]

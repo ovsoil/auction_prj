@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
-
 from django.db import models
 from datetime import datetime
+from redactor.fields import RedactorField
 
 
 # Create your models here.
@@ -19,7 +19,7 @@ class Good(models.Model):
     bid_range = models.IntegerField()
     bidder_num = models.IntegerField(default=0)
     post_time = models.DateTimeField(auto_now_add=True)
-    details = models.TextField(default='')
+    details = RedactorField(verbose_name=u'Text')
 
     @property
     def status(self):

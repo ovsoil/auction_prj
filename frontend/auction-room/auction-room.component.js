@@ -7,8 +7,8 @@
             templateUrl: '/static/auction-room/auction-room.html',
             controller: AuctionRoomController
         });
-    AuctionRoomController.$inject = ['$routeParams', '$http', '$timeout', 'Authentication', 'Good', 'Bid']
-    function AuctionRoomController($routeParams, $http, $timeout, Authentication, Good, Bid){
+    AuctionRoomController.$inject = ['$routeParams', '$http', '$timeout', '$sce', 'Authentication', 'Good', 'Bid']
+    function AuctionRoomController($routeParams, $http, $timeout, $sce, Authentication, Good, Bid){
         var self = this;
         self.submit_bid = submit_bid;
         self.setImage = setImage;
@@ -29,16 +29,17 @@
                 self.setImage(good.images[0]);
                 self.start_time.setTime(Date.parse(good.start_time));
                 self.stop_time.setTime(Date.parse(good.stop_time));
+                self.details = $sce.trustAsHtml(good.details);
                 // set status and deal callback
                 var now = new Date()
                 if (now < self.start_time) {
                     self.before_start = (self.start_time - now) / 1000;
-                    // $timeout(self.auction_begin, self.start_time - now);
+                    $timeout(self.auction_begin, self.start_time - now);
                     self.status = 'comming';
                 }
                 else if (now < self.stop_time) {
                     self.before_stop = (self.stop_time - now) / 1000;
-                    // $timeout(self.auction_done, self.stop_time - now);
+                    $timeout(self.auction_done, self.stop_time - now);
                     self.status = 'going';
                 }
                 else {
@@ -56,8 +57,10 @@
             Bid.filterbygood($routeParams.goodId).
                 success(function(data, status, headers, config) {
                     self.bids = data;
-                    self.current_bid = data[0];
-                    self.amount = self.current_bid.amount + self.good.bid_range;
+                    if(self.bids != 0) {
+                        self.current_bid = data[0];
+                        self.amount = self.current_bid.amount + self.good.bid_range;
+                    }
                 }).
                 error(function(data, status, headers, config) {
                     self.bids = [];
@@ -93,11 +96,9 @@
                     return false;
                 }
                 if(self.bids == 0) {
-                    return amount >= self.good.start_price &&
-                        0 == (amount - self.good.start_price) % self.good.bid_range;
+                    return amount >= self.good.start_price && 0 == (amount - self.good.start_price) % self.good.bid_range;
                 } else {
-                    return amount > self.current_bid.amount &&
-                        0 == (amount - self.current_bid.amount) % self.good.bid_range;
+                    return amount > self.current_bid.amount && 0 == (amount - self.current_bid.amount) % self.good.bid_range;
                 }
             }
         }
@@ -112,6 +113,10 @@
             // TODO auction start
             // alert("Deal! Auction Done.");
             self.status = 'done';
+            if (self.bids == 0){
+                // TODO 流拍
+                alert("Not bidder!")
+            }
         }
     }
 
