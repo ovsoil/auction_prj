@@ -34,9 +34,6 @@
         }
 
         function login(email, password) {
-            // if (self.isAuthenticated()){
-            //     window.location = '/';
-            // }
             return $http.post('/api/v1/auth/', {
                 email: email, password: password
             }).then(loginSuccessFn, loginErrorFn);

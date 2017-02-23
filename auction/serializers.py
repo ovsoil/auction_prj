@@ -25,19 +25,6 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('url', 'id', 'username', 'password', 'first_name',
-#                   'last_name', 'email')
-#         read_only_fields = ('id',)
-#         write_only_fields = ('password',)
-
-#     def restore_object(self, attrs, instance=None):
-#         user = super(UserSerializer, self).restore_object(attrs, instance)
-#         user.set_password(attrs['password'])
-#         return user
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     # bids = serializers.HyperlinkedRelatedField(queryset=Bid.objects.all(), view_name='bid-detail', many=True)
 
@@ -49,7 +36,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         }
 
     def create(self, validated_data):
-        # user = User.objects.create(
         user = User(
             email=validated_data['email'],
             username=validated_data['username']
@@ -91,7 +77,3 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         return Bid.objects.create(**validated_data)
-
-    def get_validation_exclusions(self, *args, **kwargs):
-        exclusions = super(BidSerializer, self).get_validation_exclusions()
-        return exclusions + ['user', 'good']

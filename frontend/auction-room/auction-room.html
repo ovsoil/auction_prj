@@ -73,7 +73,7 @@
             {{$ctrl.bids.length}} 人次出价
             </p>
           </small>
-          <p>成交价格：{{ $ctrl.current_bid.amount }} </p>
+          <p> {{$ctrl.bids.length == 0 ? "流拍" : "成交价格：" + $ctrl.current_bid.amount}} </p>
         </blockquote>
       </div>
 

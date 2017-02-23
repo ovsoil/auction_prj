@@ -46,10 +46,6 @@ goods_router = routers.NestedSimpleRouter(
 )
 goods_router.register(r'bids', GoodBidViewSet, base_name='good-bids')
 
-print settings.MEDIA_URL
-print settings.MEDIA_ROOT
-print static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(users_router.urls)),

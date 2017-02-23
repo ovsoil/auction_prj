@@ -35,7 +35,7 @@ class Good(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('start_time',)
+        ordering = ('-start_time','-stop_time')
 
 
 class Bid(models.Model):
@@ -48,7 +48,7 @@ class Bid(models.Model):
     amount = models.IntegerField()
 
     class Meta:
-        ordering = ('time', )
+        ordering = ('-time', )
 
     def __unicode__(self):
         return '{0}: {1}'.format(self.user, self.amount)
