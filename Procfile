@@ -1,1 +1,1 @@
-web: gunicorn weauction.wsgi --log-file -
+web: gunicorn auction_prj.wsgi --log-file -
