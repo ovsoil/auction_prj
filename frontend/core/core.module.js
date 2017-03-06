@@ -4,7 +4,6 @@
 angular.module('core', [
     'core.good', 
     'core.user',
-    'core.auth',
     'core.authentication'
 
 ]);

@@ -5,9 +5,9 @@
         .module('core.authentication')
         .factory('Authentication', Authentication);
 
-    Authentication.$inject = ['$cookies', '$http', 'Auth', 'User'];
+    Authentication.$inject = ['$cookies', '$http', 'User'];
 
-    function Authentication($cookies, $http, Auth, User) {
+    function Authentication($cookies, $http, User) {
         var Authentication = {
             getCredentials: getCredentials,
             getAuthenticatedUser: getAuthenticatedUser,
