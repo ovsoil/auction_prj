@@ -32,7 +32,7 @@ class Good(models.Model):
     image08 = models.ImageField(upload_to='images/', blank=True, null=True)
     image09 = models.ImageField(upload_to='images/', blank=True, null=True)
 
-    imgs = models.ManyToManyField('Image', blank=True)
+    #  imgs = models.ManyToManyField('Image', blank=True)
 
     post_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True)

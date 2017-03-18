@@ -4,7 +4,7 @@
     <div class="container">
       <div id="doc-header" class="doc-header text-center">
         <h1 class="doc-title"><span aria-hidden="true" class="icon icon_genius"></span> 尚玉文化</h1>
-        <div class="meta"><i class="fa fa-clock-o"></i> 最新拍卖: {{$ctrl.goods[0].start_time | date:'yyyy-MM-dd H:mm:ss'}}</div>
+        <div ng-if="$ctrl.goods != 0" class="meta"><i class="fa fa-clock-o"></i> 最新拍卖: {{$ctrl.goods[0].start_time | date:'yyyy-MM-dd H:mm:ss'}}</div>
       </div><!--//doc-header-->
 
       <div id="showcase" class="doc-body">

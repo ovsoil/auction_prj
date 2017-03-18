@@ -100,6 +100,9 @@ DATABASES = {
         'PORT': '5432'
     }
 }
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -147,11 +150,12 @@ STATICFILES_FINDERS = (
 )
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Media files
 #  MEDIA_ROOT = os.path.join(BASE_DIR, "data"),
-MEDIA_ROOT = 'data'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'data')
 MEDIA_URL = '/media/'
 
 #Authentication backends
