@@ -2,12 +2,12 @@
 {% load i18n %}
 {% load staticfiles %}
 
-{% block extra_css %}
+{% block app_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'app.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'app.animations.css' %}" />
-{% endblock extra_css %}
+{% endblock app_css %}
 
-{% block extra_javascript %}
+{% block app_javascript %}
 <script type="text/javascript" src="{% static 'app.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'app.config.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/core.module.js' %}"></script>
@@ -32,10 +32,8 @@
 <script type="text/javascript" src="{% static 'account/account.component.js' %}"></script>
 <script type="text/javascript" src="{% static 'settings/settings.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'settings/settings.component.js' %}"></script>
-{% endblock extra_javascript %}
+{% endblock app_javascript %}
 
 {% block content %}
-<div class="container">
   <div ng-view>Loading...</div>
-</div>
 {% endblock content %}

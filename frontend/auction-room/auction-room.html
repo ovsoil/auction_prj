@@ -1,103 +1,225 @@
-<div class="container">
-  <div class="row clearfix">
-    <div class="col-sm-12 col-md-6 column">
-      <div class="row clearfix">
-        <img ng-src="{{$ctrl.mainImageUrl}}" class="img-responsive" />
+<nav class="navbar navbar-default navbar-fixed-top status-bar" ng-if="$ctrl.status != 'done'">
+      <div ng-if="$ctrl.status == 'comming'">
+        <timer countdown="$ctrl.before_start"
+               max-time-unit="'day'"
+               interval="1000"
+               finish-callback="$ctrl.auction_begin()">
+        <p class="status-text">
+        距离开拍：{{days}} day{{daysS}}, {{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
+        </p>
+        </timer>
       </div>
-      <div class="row clearfix">
-        <div class="col-sm-3" ng-repeat="img in $ctrl.good.images">
-          <img ng-src="{{img}}" class="img-responsive" ng-click="$ctrl.setImage(img)" />
+      <div ng-if="$ctrl.status == 'going'">
+        <timer countdown="$ctrl.before_stop"
+               max-time-unit="'hour'"
+               interval="1000"
+               finish-callback="$ctrl.auction_done()">
+        <p class="status-text">
+        距离结束：{{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
+        </p>
+        </timer>
+      </div>
+</nav>
+
+<div class="container-fluid">
+  <!-- good show and auction -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 good-display">
+      <div class="list-group main-card">
+
+        <div id="images-carousel" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#images-carousel" data-slide-to="0" class="active"></li>
+            <li ng-repeat="img in $ctrl.good.images.slice(1)" data-target="#images-carousel" data-slide-to="{{ $index + 1 }}"></li>
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <img ng-src="{{$ctrl.good.images[0]}}" alt="..." width=100%>
+              <div class="carousel-caption">
+              </div>
+            </div>
+            <div class="item" ng-repeat="img in $ctrl.good.images.slice(1)">
+              <img ng-src={{img}} alt="..." width=100%>
+              <div class="carousel-caption">
+              </div>
+            </div>
+          </div>
+          <!-- Controls -->
+          <a class="left carousel-control" href="#images-carousel" role="button" data-slide="prev">
+            <span class="fa fa-angle-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#images-carousel" role="button" data-slide="next">
+            <span class="fa fa-angle-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <div class="good-label list-group-item" align="left">
+          <button type="button" class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-lg">
+            <i class="fa fa-balance-scale" aria-hidden="true"></i>拍卖规则
+          </button>
+          <div class="label-right" style="float:right">围观100</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="col-md-6 column">
-      <h3>
-        {{$ctrl.good.name}}
-      </h3>
-      <p>
-      {{$ctrl.good.description}}
-      </p>
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="page-header">
+        <h3>{{$ctrl.good.name}} <small>{{$ctrl.good.description}}</small>
+        <!-- <a style="float:right" align="bottom">详情...</a> -->
+        </h3>
+      </div>
 
-      <div ng-if="$ctrl.status == 'comming'">
+      <div class="auction-block" ng-if="$ctrl.status == 'comming'">
         <blockquote>
-          <p>即将开拍</p>
-          <p>开始时间：{{ $ctrl.good.start_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
-          <p>起拍价：{{ $ctrl.good.start_price }} </p>
-          <p>加价幅度：{{ $ctrl.good.bid_range }} </p>
-          <small>
-            <timer countdown="$ctrl.before_start"
-                   max-time-unit="'day'"
-                   interval="1000"
-                   finish-callback="$ctrl.auction_begin()">
-            距离开拍：{{days}} day{{daysS}}, {{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
-            </timer>
-          </small>
+          <timer countdown="$ctrl.before_start"
+                 max-time-unit="'day'"
+                 interval="1000"
+                 finish-callback="$ctrl.auction_begin()">
+          <p class="main-status">距离开拍：{{days}} : {{hours}} : {{mminutes}} : {{sseconds}}</p>
+          </timer>
+          <div class="box-2col">
+            <p id="box-left" class="main-price">起拍价：￥{{ $ctrl.good.start_price }}</p>
+            <p id="box-right" class="main-price">加价幅度：￥{{ $ctrl.good.bid_range }}</p>
+          </div>
+          <br>
+          <p id="tips">开始时间：{{ $ctrl.good.start_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
         </blockquote>
       </div>
 
-      <div ng-if="$ctrl.status == 'going'">
-        <blockquote>
-          <p>拍卖中</p>
-          <p>结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
-          <p>起拍价：{{ $ctrl.good.start_price }} </p>
-          <p>加价幅度：{{ $ctrl.good.bid_range }} </p>
+      <div  class="auction-block" ng-if="$ctrl.status == 'going'">
           <timer countdown="$ctrl.before_stop"
                  max-time-unit="'hour'"
                  interval="1000"
                  finish-callback="$ctrl.auction_done()">
-          距离结束：{{hours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
+          <p class="main-status">
+          距离结束：{{hours}} : {{mminutes}} : {{sseconds}}
+          </p>
           </timer>
-          <small>
-            <p>
-            {{$ctrl.bids.length}} 人次出价
-            </p>
-          </small>
-        </blockquote>
-        <div>
+          <div class="box-2col">
+            <p id="box-left" class="main-price">起拍价：￥{{ $ctrl.good.start_price }}</p>
+            <p id="box-right" class="main-price">加价幅度：￥{{ $ctrl.good.bid_range }}</p>
+          </div>
           <form role="form" ng-submit="$ctrl.submit_bid()">
-            <input ng-model="$ctrl.amount"> </input>
-            <button type="submit" class="btn btn-default">出价</button>
+            <div class="input-group">
+              <input ng-model="$ctrl.price" type="number" class="form-control" placeholder="出价...">
+              <span class="input-group-btn">
+                <button ng-click="$ctrl.raise_price()" class="btn btn-block btn-cta-secondary" type="button">固定加价</button>
+              </span>
+            </div><!-- /input-group -->
+            <button type="submit" class="btn btn-block btn-cta-primary btn-twitter">出价</button>
           </form>
-        </div>
+          <br>
+          <p id="tips">结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
       </div>
 
-      <div ng-if="$ctrl.status == 'done'">
-        <blockquote>
-          <p>拍卖结束</p>
-          <p>结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
-          <p>起拍价：{{ $ctrl.good.start_price }} </p>
-          <p>加价幅度：{{ $ctrl.good.bid_range }} </p>
-          <small>
-            <p>
-            {{$ctrl.bids.length}} 人次出价
-            </p>
-          </small>
-          <p> {{$ctrl.bids.length == 0 ? "流拍" : "成交价格：" + $ctrl.current_bid.amount}} </p>
-        </blockquote>
-      </div>
-
-    </div>
-  </div>
-  <div class="row clearfix">
-    <div class="col-sm-12 col-md-6 column">
-      <div class="page-header">
-        <h1>
-          <small>详情</small>
-        </h1>
-      </div>
-      <dl>
-        <dt>
-        Description lists
-        </dt>
-        <p></p>
-        <p ng-bind-html = "$ctrl.details"></p>
-      </dl>
-    </div>
-    <div class="col-sm-12 col-md-6 column">
-      <div ng-repeat="bid in $ctrl.bids">
-        <p>{{bid.user}}, {{bid.amount}}</p>
+      <div class="auction-block" ng-if="$ctrl.status == 'done'">
+          <p class="main-status"> {{$ctrl.bids.length == 0 ? "流拍" : "成交价格：" + $ctrl.bids[0].price}} </p>
+          <div class="box-2col">
+            <p id="box-left" class="main-price">起拍价：￥{{ $ctrl.good.start_price }}</p>
+            <p id="box-right" class="main-price">加价幅度：￥{{ $ctrl.good.bid_range }}</p>
+          </div>
+          <br>
+          <p id="tips">结束时间：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
       </div>
     </div>
   </div>
 </div>
+
+<div class="container-fluid">
+  <!-- bid list or good detail -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="page-header">
+        <h2>
+          <small>出价记录</small>
+        </h2>
+      </div>
+      <dl>
+        <p class="bid-record"> {{$ctrl.bids.length == 0 ? "无人出价" : ""}} </p>
+        <dt>
+        <ul class="list-group bid-record">
+          <li ng-repeat="bid in $ctrl.bids" class="list-group-item list-group-item">
+            <div class="box-3col">
+              <div id = "box-first">
+                <img src="/static/images/logo.png" alt="..." height="28">
+              </div>
+              <p id="box-second"> {{bid.user}}</p>
+              <p id="box-third"> {{bid.price}}</p>
+            </div>
+            <!-- <div class="media"> -->
+            <!--   <div class="media-left"> -->
+            <!--     <img class="media-object" src="/static/images/logo.png" alt="..." height="28"> -->
+            <!--   </div> -->
+            <!--   <div class="media-body" align="right"> -->
+            <!--     <p>{{bid.user}}</p> -->
+            <!--   </div> -->
+              <!-- <span class="badge">{{bid.price}}</span> -->
+            </div>
+          </li>
+        </ul>
+        </dt>
+      </dl>
+    </div>
+
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="page-header">
+        <h2><small>产品详情</small></h2>
+      </div>
+        <div class="good-detail" ng-bind-html = "$ctrl.details"></div>
+    </div>
+
+  </div>
+
+  <!-- contact us -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="contact-block ">
+        <div class="card-header">
+          <div class="page-header">
+          </div>
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">公司名字</h4>
+          <img src="/static/images/card.jpg" height="400" width="400"></img>
+          <p class="card-text">扫码关注·联系我们</p>
+          <h3 class="card-text">联系电话</h3>
+        </div>
+        <div class="card-footer text-muted">
+          公司地点
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- floor -->
+  <div id="footer" class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <p class="text-muted">2016 &#xA9; <a href="http://syw.com/" target="_blank">ShangYuWang</a></p>
+    </div>
+  </div>
+
+      <!-- modal dialog for auction rules-->
+      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="modal-auction-rules">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">拍卖规则</h4>
+            </div>
+            <div class="modal-body">
+              <p>One:</p>
+              <p>Two:</p>
+              <p>Three:</p>
+            </div>
+            <!-- <button class="modal-footer btn btn-block" data-dismiss="modal">我知道了</button> -->
+            <button class="modal-body btn btn-block" data-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+  <br><br><br><br><br><br><br>

@@ -1,15 +1,44 @@
-<div class="container gallery">
-  <div class="row">
-    <div class="col-sm-6 col-md-3" ng-repeat="good in $ctrl.goods">
-      <div class="home-thumb">
-        <a href="/auction-room/{{good.id}}">
-          <img ng-src="{{good.images[0]}}" class="img-responsive" alt="{{good.name}}:400x400" />
-        </a>
-        <div class="caption">
-          <h3>{{ good.name }}</h3>
-          <p><a href="/auction-room/{{good.id}}"><span class="badge pull-right">{{good.bidder_num}}</span>enter</a></p>
-        </div>
-      </div><!-- /.thumbnail -->
-    </div><!-- /.col-lg-4 -->
-  </div><!-- /.row -->
-</div><!-- /.container items -->
+<div class="page-wrapper">
+  <div class="doc-wrapper">
+
+    <div class="container">
+      <div id="doc-header" class="doc-header text-center">
+        <h1 class="doc-title"><span aria-hidden="true" class="icon icon_genius"></span> 尚玉文化</h1>
+        <div class="meta"><i class="fa fa-clock-o"></i> 最新拍卖: {{$ctrl.goods[0].start_time | date:'yyyy-MM-dd H:mm:ss'}}</div>
+      </div><!--//doc-header-->
+
+      <div id="showcase" class="doc-body">
+        <div class="doc-content">
+          <div class="content-inner">
+            <section id="premium-themes" class="doc-section">
+              <!-- <h2 id="theme-start" class="section-title"></h2> -->
+              <div class="section-block">
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12" ng-repeat="good in $ctrl.goods">
+                    <div class="card">
+                      <a href="/auction-room/{{good.id}}"><img class="img-responsive" ng-src="{{good.images[0]}}" alt="screenshot" /></a>
+                      <div class="card-block">
+                        <h4 class="card-title">{{ good.name }}</h4>
+                        <p class="card-text">{{ good.slogan }}</p>
+                      </div><!--//card-block-->
+                    </div><!--//card-->
+                  </div>
+                </div><!--//row-->
+              </div><!--//section-block-->
+            </section><!--//doc-section-->
+          </div><!--//content-inner-->
+        </div><!--//doc-content-->
+      </div><!--//doc-body-->
+    </div><!--//container-->
+  </div><!--//doc-wrapper-->
+</div><!--//page-wrapper-->
+
+<footer id="footer" class="footer text-center">
+  <div class="container">
+    <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
+    <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://www.shinejade.com/" target="_blank">尚玉网</a></small>
+
+  </div><!--//container-->
+</footer><!--//footer-->
+<br>
+<br>

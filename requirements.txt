@@ -4,3 +4,5 @@ drf_nested_routers==0.11.1
 django_wysiwyg_redactor==0.4.9.1
 Pillow==4.0.0
 gunicorn==19.6.0
+newrelic==2.80.1.61
+psycopg2==2.7

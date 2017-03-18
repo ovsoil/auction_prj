@@ -1,6 +1,6 @@
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
-from auction.models import Good, Bid
+from auction.models import Good, Bid, Image
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -12,18 +12,13 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Good
-        fields = ('url', 'id', 'name', 'description', 'images', 'start_time', 'stop_time',
-                  'start_price', 'bid_range', 'bidder_num', 'status', 'post_time', 'details')
+        fields = ('url', 'id', 'name', 'description', 'slogan', 'images', 'start_time', 'stop_time',
+                  'start_price', 'bid_range', 'status', 'post_time', 'details', 'visitor_num')
         read_only_fields = ('post_time',)
 
     def get_images(self, obj):
-        return [
-            staticfiles_storage.url(obj.image01.name),
-            staticfiles_storage.url(obj.image02.name),
-            staticfiles_storage.url(obj.image03.name),
-            staticfiles_storage.url(obj.image04.name),
-        ]
-
+        files = [getattr(obj, 'image%02d' % i).name for i in range(1, 10)]
+        return [staticfiles_storage.url(f) for f in files if f]
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     # bids = serializers.HyperlinkedRelatedField(queryset=Bid.objects.all(), view_name='bid-detail', many=True)
@@ -73,7 +68,13 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Bid
-        fields = ('url', 'id', 'time', 'amount', 'user', 'good')
+        fields = ('url', 'id', 'time', 'price', 'user', 'good')
 
     def create(self, validated_data):
         return Bid.objects.create(**validated_data)
+
+
+class ImageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Image
+        fields = ('url', 'id', 'name', 'img')

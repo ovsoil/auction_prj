@@ -28,4 +28,3 @@ class AngularView(TemplateView):
     @method_decorator(ensure_csrf_cookie)
     def dispath(self, request, *args, **kwargs):
         return super(AngularView, self).dispath(request, *args, **kwargs)
-

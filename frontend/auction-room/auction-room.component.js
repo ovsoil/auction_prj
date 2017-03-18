@@ -10,9 +10,13 @@
     AuctionRoomController.$inject = ['$routeParams', '$http', '$timeout', '$sce', 'Authentication', 'Good', 'Bid']
     function AuctionRoomController($routeParams, $http, $timeout, $sce, Authentication, Good, Bid){
         var self = this;
-        self.submit_bid = submit_bid;
         self.setImage = setImage;
         self.setBids = setBids;
+        self.valid_price = valid_price;
+        self.valid_bid = valid_bid;
+        self.proposal_price = proposal_price;
+        self.raise_price = raise_price;
+        self.submit_bid = submit_bid;
         self.auction_begin = auction_begin;
         self.auction_done = auction_done;
         self.start_time = new Date();
@@ -22,8 +26,7 @@
 
         function activate() {
             self.bids = [];
-            self.current_bid = null;
-            self.amount = 0;
+            self.price = 0;
             self.user_num = 0;
             self.good = Good.get({goodId: $routeParams.goodId}, function(good) {
                 self.setImage(good.images[0]);
@@ -57,10 +60,9 @@
             Bid.filterbygood($routeParams.goodId).
                 success(function(data, status, headers, config) {
                     self.bids = data;
-                    if(self.bids != 0) {
-                        self.current_bid = data[0];
-                        self.amount = self.current_bid.amount + self.good.bid_range;
-                    }
+                    // TODO: check consistency of the bids data
+                    // 时间顺序是否与价格顺序一致
+                    self.price = self.proposal_price();
                 }).
                 error(function(data, status, headers, config) {
                     self.bids = [];
@@ -68,38 +70,44 @@
                 });
         }
 
+        function valid_price(price) {
+            if(self.bids == 0) {
+                return price >= self.good.start_price && 0 == (price - self.good.start_price) % self.good.bid_range;
+            } else {
+                return price > self.bids[0].price && 0 == (price - self.bids[0].price) % self.good.bid_range;
+            }
+        }
+
+        function valid_bid(price) {
+            return self.status == 'going' && self.valid_price(price);
+        }
+
+        function proposal_price() {
+            if(self.bids == 0) {
+                return self.good.start_price;
+            } else {
+                return self.bids[0].price + self.good.bid_range;
+            }
+        }
+
+        function raise_price() {
+            if(self.valid_price(self.price + self.good.bid_range)){
+                self.price = self.price + self.good.bid_range;
+            } else {
+                self.price = self.proposal_price();
+            }
+        }
+
         function submit_bid() {
-            if (valid_bid(self.amount)) {
+            if (self.valid_bid(self.price)) {
                 Bid.bid.new({},{
                     good_id: self.good.id,
-                    amount: self.amount
+                    price: self.price
                 },function(){
                     self.setBids();
                 });
-                // Bid.bid.new({
-                //     good_id: self.good.id,
-                //     amount: self.amount
-                // }).
-                //     $promise.
-                //     then(
-                //         self.setBids()
-                //     ).
-                //     catch(function(data){
-                //         alert(data.data.good);
-                //     });
             } else {
                 alert('bid not valid!');
-            }
-
-            function valid_bid(amount) {
-                if (self.status != 'going') {
-                    return false;
-                }
-                if(self.bids == 0) {
-                    return amount >= self.good.start_price && 0 == (amount - self.good.start_price) % self.good.bid_range;
-                } else {
-                    return amount > self.current_bid.amount && 0 == (amount - self.current_bid.amount) % self.good.bid_range;
-                }
             }
         }
 

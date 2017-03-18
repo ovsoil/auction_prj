@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django import forms
 from redactor.widgets import RedactorEditor
-from models import Good, Bid
+from models import Good, Bid, Image
 
 # Register your models here.
 admin.site.register(Good)
 admin.site.register(Bid)
+admin.site.register(Image)
 
 
 class GoodAdminForm(forms.ModelForm):
