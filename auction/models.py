@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from django.contrib.auth.models import User
+from authentication.models import Account
 from django.db import models
 from datetime import datetime
 from redactor.fields import RedactorField
@@ -22,6 +22,8 @@ class Good(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(default='')
     slogan = models.TextField(default='')
+    banner_image = models.ImageField(upload_to='images/')
+
     image01 = models.ImageField(upload_to='images/')
     image02 = models.ImageField(upload_to='images/', blank=True, null=True)
     image03 = models.ImageField(upload_to='images/', blank=True, null=True)
@@ -31,8 +33,6 @@ class Good(models.Model):
     image07 = models.ImageField(upload_to='images/', blank=True, null=True)
     image08 = models.ImageField(upload_to='images/', blank=True, null=True)
     image09 = models.ImageField(upload_to='images/', blank=True, null=True)
-
-    #  imgs = models.ManyToManyField('Image', blank=True)
 
     post_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True)
@@ -64,10 +64,7 @@ class Good(models.Model):
 
 
 class Bid(models.Model):
-    #  user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #  good = models.ForeignKey('auction.Good', on_delete=models.CASCADE, related_name='bids')
-    #  good = models.ForeignKey('auction.Good', on_delete=models.CASCADE)
+    bidder = models.ForeignKey(Account, on_delete=models.CASCADE)
     good = models.ForeignKey(Good, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True)
     price = models.IntegerField()
@@ -76,4 +73,4 @@ class Bid(models.Model):
         ordering = ('-time', )
 
     def __unicode__(self):
-        return '{0}: {1}'.format(self.user, self.price)
+        return '{0}: {1}'.format(self.bidder, self.price)

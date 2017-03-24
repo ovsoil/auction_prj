@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ SECRET_KEY = '@i5hd898bmi7!%q9x1q8%0$k-i^iy)0w!bx^tgt0s-&gi-rsn@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-#  DEBUG = False
+# DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
 
     'redactor',
     'rest_framework',
+    'authentication',
     'auction'
 ]
 
@@ -93,16 +95,16 @@ WSGI_APPLICATION = 'auction_prj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'auction_prj',
+        'NAME': 'auction',
         'USER': 'postgres',
         'PASSWROD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432'
     }
 }
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
-DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+if dj_database_url.config():
+    DATABASES['default'] = dj_database_url.config()
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -158,9 +160,12 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'data')
 MEDIA_URL = '/media/'
 
-#Authentication backends
+AUTH_USER_MODEL = 'authentication.Account'
+
+# Authentication backends
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+    #  'django.contrib.auth.backends.ModelBackend',
+    'authentication.auth.AuthBackend',
 )
 
 # rest_framework
@@ -175,3 +180,10 @@ REST_FRAMEWORK = {
 
 REDACTOR_OPTIONS = {'lang': 'en'}
 REDACTOR_UPLOAD = 'upload/'
+
+# For Weixin Authenticate
+
+APP_ID = 'wx0c0b8e0fdfb61758'
+APP_SECRET = '801932f539f215b00f89aed043e57d4e'
+HOST = 'weauction.herokuapp.com'
+REDIRECT_URI = 'https://weauction.herokuapp.com/register/wechat/'

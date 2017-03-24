@@ -27,6 +27,9 @@ angular.
                 when('/+:userId/settings', {
                     template: '<settings>/<settings>'
                 }).
+                // when('/weixin/callback.do', {
+                //     template: ''
+                // })
                 otherwise('/');
         }
     ]);

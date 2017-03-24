@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from rest_framework import permissions
-from django.contrib.auth.models import User
 
 
 class IsSupperUser(permissions.BasePermission):

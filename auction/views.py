@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions
@@ -7,22 +6,10 @@ from rest_framework import views, viewsets, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from auction.models import Good, Bid
-from auction.serializers import UserSerializer, GoodSerializer, BidSerializer
-from auction.permissions import IsSupperUser, IsStaffOrTargetUser
+from auction.serializers import GoodSerializer, BidSerializer
+from authentication.permissions import IsSupperUser
 #  from auction.authenticators import QuietBasicAuthentication
 import json
-from django.contrib.auth import get_user_model
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = get_user_model().objects
-    serializer_class = UserSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            self.permission_classes = (permissions.AllowAny,)
-
-        return super(UserViewSet, self).get_permissions()
 
 
 class GoodViewSet(viewsets.ModelViewSet):
@@ -59,7 +46,7 @@ class BidViewSet(viewsets.ModelViewSet):
         return (IsSupperUser(),)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user,
+        serializer.save(bidder=self.request.user,
                         good=Good.objects.get(id=self.request.data['good_id']))
 
         return super(BidViewSet, self).perform_create(serializer)
@@ -78,48 +65,20 @@ class GoodBidViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None, good_pk=None):
         bids = self.queryset.get(pk=pk, good=good_pk)
-        serializer = self.serializer_class(bids, many=True, context={'request': request})
+        serializer = self.serializer_class(bids, many=False, context={'request': request})
         return Response(serializer.data)
 
 
-class UserBidViewSet(viewsets.ViewSet):
-    queryset = Bid.objects.select_related('user')       #.order_by('-time')
+class AccountBidViewSet(viewsets.ViewSet):
+    queryset = Bid.objects.select_related('bidder')       # .order_by('-time')
     serializer_class = BidSerializer
 
-    def list(self, request, user_pk=None):
-        bids = self.queryset.filter(user=user_pk)
+    def list(self, request, account_pk=None):
+        bids = self.queryset.filter(bidder=account_pk)
         serializer = self.serializer_class(bids, many=True, context={'request': request})
         return Response(serializer.data)
 
-
-class AuthView(views.APIView):
-    #  authentication_classes = (QuietBasicAuthentication,)
-
-    def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        username = data.get('username', None)
-        email = data.get('email', None)
-        password = data.get('password', None)
-        if username is None:
-            username = User.objects.get(email=email).username
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                serialized = UserSerializer(instance=user, context={'request': request})
-                return Response(serialized.data)
-            else:
-                return Response({
-                    'status': 'Unauthorized',
-                    'message': 'The password is valid, but the user has been disabled!'
-                }, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response({
-                'status': 'Unauthorized',
-                'message': 'Username/password combination invalid.'
-            }, status=status.HTTP_401_UNAUTHORIZED)
-
-    def delete(self, request, *args, **kwargs):
-        logout(request)
-        return Response()
+    def retrieve(self, request, pk=None, bidder_pk=None):
+        bids = self.queryset.get(pk=pk, bidder=bidder_pk)
+        serializer = self.serializer_class(bids, many=False, context={'request': request})
+        return Response(serializer.data)

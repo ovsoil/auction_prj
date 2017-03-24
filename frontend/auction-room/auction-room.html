@@ -67,6 +67,23 @@
     </div>
   </div>
 
+
+  <!-- 图片轮播 -->
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="homepage-carousel clearfix" ng-cloak>
+        <div class="carousel">
+          <ul rn-carousel rn-carousel-buffered rn-carousel-index="carouselIndex" rn-carousel-auto-slide>
+            <li ng-repeat="img in $ctrl.good.images">
+              <img ng-src="{{ img }}" ng-click="redirectTo(banner)" alt="" />
+            </li>
+          </ul>
+          <div rn-carousel-indicators ng-if="banners.length > 1" slides="banners" rn-carousel-index="carouselIndex"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <div class="page-header">
@@ -149,7 +166,7 @@
               <div id = "box-first">
                 <img src="/static/images/logo.png" alt="..." height="28">
               </div>
-              <p id="box-second"> {{bid.user}}</p>
+              <p id="box-second"> {{bid.bidder}}</p>
               <p id="box-third"> {{bid.price}}</p>
             </div>
             <!-- <div class="media"> -->
@@ -157,7 +174,7 @@
             <!--     <img class="media-object" src="/static/images/logo.png" alt="..." height="28"> -->
             <!--   </div> -->
             <!--   <div class="media-body" align="right"> -->
-            <!--     <p>{{bid.user}}</p> -->
+            <!--     <p>{{bid.bidder}}</p> -->
             <!--   </div> -->
               <!-- <span class="badge">{{bid.price}}</span> -->
             </div>
@@ -222,4 +239,4 @@
           </div>
         </div>
       </div>
-  <br><br><br><br><br><br><br>
+  <br><br><br>

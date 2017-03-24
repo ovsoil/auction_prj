@@ -17,28 +17,25 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
-from auction.views import UserViewSet, GoodViewSet, BidViewSet
-from auction.views import UserBidViewSet, GoodBidViewSet
-from auction.views import AuthView  # LoginView, LogoutView
-from auction_prj.views import IndexView, AngularView
+from auction.views import GoodViewSet, BidViewSet
+from auction.views import GoodBidViewSet, AccountBidViewSet
+from authentication.views import AccountViewSet
+from authentication.views import AuthView, WechatAuthView, WechatRegisterView
+from auction_prj.views import IndexView, WechatMain
 #  from django.contrib.staticfiles import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-# router = DefaultRouter()
-# router.register(r'users', UserViewSet)
-# router.register(r'goods', GoodViewSet)
-# router.register(r'bids', BidViewSet)
 
 router = routers.SimpleRouter()
-router.register(r'users', UserViewSet)
 router.register(r'goods', GoodViewSet)
+router.register(r'accounts', AccountViewSet)
 router.register(r'bids', BidViewSet)
 
-users_router = routers.NestedSimpleRouter(
-    router, r'users', lookup='user'
+accounts_router = routers.NestedSimpleRouter(
+    router, r'accounts', lookup='account'
 )
-users_router.register(r'bids', UserBidViewSet, base_name='user-bids')
+accounts_router.register(r'bids', AccountBidViewSet, base_name='account-bids')
 
 goods_router = routers.NestedSimpleRouter(
     router, r'goods', lookup='good'
@@ -47,12 +44,15 @@ goods_router.register(r'bids', GoodBidViewSet, base_name='good-bids')
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
-    url(r'^api/v1/', include(users_router.urls)),
+    url(r'^api/v1/', include(accounts_router.urls)),
     url(r'^api/v1/', include(goods_router.urls)),
-    url(r'^redactor/', include('redactor.urls')),
-    url(r'^api/v1/auth/$', AuthView.as_view(), name='authenticate'),
     url(r'^admin/', admin.site.urls),
+    url(r'^redactor/', include('redactor.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/v1/auth/$', AuthView.as_view(), name='authenticate'),
+    url(r'^auth/wechat/$', WechatAuthView.as_view(), name='wechat_auth'),
+    url(r'^register/wechat/$', WechatRegisterView.as_view(), name='wechat_register'),
+    url(r'^wechat-main/$', WechatMain, name='wechat_main'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [

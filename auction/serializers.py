@@ -1,7 +1,6 @@
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from auction.models import Good, Bid, Image
-from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 
@@ -12,7 +11,7 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Good
-        fields = ('url', 'id', 'name', 'description', 'slogan', 'images', 'start_time', 'stop_time',
+        fields = ('url', 'id', 'name', 'description', 'slogan', 'banner_image', 'images', 'start_time', 'stop_time',
                   'start_price', 'bid_range', 'status', 'post_time', 'details', 'visitor_num')
         read_only_fields = ('post_time',)
 
@@ -20,40 +19,12 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
         files = [getattr(obj, 'image%02d' % i).name for i in range(1, 10)]
         return [staticfiles_storage.url(f) for f in files if f]
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    # bids = serializers.HyperlinkedRelatedField(queryset=Bid.objects.all(), view_name='bid-detail', many=True)
-
-    class Meta:
-        model = User
-        fields = ('url', 'id', 'username', 'email', 'password')
-        extra_kwargs = {
-            'password': {'write_only': True},
-        }
-
-    def create(self, validated_data):
-        user = User(
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
-    def update(self, instance, validated_data):
-        instance.email = validated_data.get('email', instance.username)
-        password = validated_data.get('password', None)
-        instance.set_password(password)
-        instance.save()
-        update_session_auth_hash(self.context.get('request'), instance)
-        return instance
-
 
 class BidSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
-    #  user = serializers.HyperlinkedRelatedField(
-    #      view_name='user-detail',
-    #      #  lookup_field='username',
-    #      lookup_field='pk',
+    bidder = serializers.ReadOnlyField(source='bidder.username')
+    #  bidder = serializers.HyperlinkedRelatedField(
+    #      view_name='bidder-detail',
+    #      lookup_field='username',
     #      many=False,
     #      read_only=True
     #  )
@@ -68,7 +39,7 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Bid
-        fields = ('url', 'id', 'time', 'price', 'user', 'good')
+        fields = ('url', 'id', 'time', 'price', 'bidder', 'good')
 
     def create(self, validated_data):
         return Bid.objects.create(**validated_data)

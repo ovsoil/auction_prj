@@ -10,13 +10,13 @@
       <div id="showcase" class="doc-body">
         <div class="doc-content">
           <div class="content-inner">
-            <section id="premium-themes" class="doc-section">
+            <!-- <section id="premium-themes" class="doc-section"> -->
               <!-- <h2 id="theme-start" class="section-title"></h2> -->
               <div class="section-block">
                 <div class="row">
                   <div class="col-sm-6 col-xs-12" ng-repeat="good in $ctrl.goods">
                     <div class="card">
-                      <a href="/auction-room/{{good.id}}"><img class="img-responsive" ng-src="{{good.images[0]}}" alt="screenshot" /></a>
+                      <a href="/auction-room/{{good.id}}"><img class="img-responsive" ng-src="{{good.banner_image}}" alt="screenshot" /></a>
                       <div class="card-block">
                         <h4 class="card-title">{{ good.name }}</h4>
                         <p class="card-text">{{ good.slogan }}</p>
@@ -25,7 +25,7 @@
                   </div>
                 </div><!--//row-->
               </div><!--//section-block-->
-            </section><!--//doc-section-->
+            <!-- </section>[>//doc-section<] -->
           </div><!--//content-inner-->
         </div><!--//doc-content-->
       </div><!--//doc-body-->

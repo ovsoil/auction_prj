@@ -25,6 +25,23 @@
   line-height: 24px;
 }
 
+.card{
+  margin-bottom: 8px;
+}
+
+.card-block{
+  padding: 8px;
+}
+
+.card-block h4{
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.card-block p{
+  margin-bottom: 4px;
+}
+
 .page-header {
   padding-bottom: 9px;
   margin: 12px 0 8px;
@@ -124,7 +141,7 @@
 }
 
 .good-detail {
-  text-align: center;
+  text-align: left;
   padding: 10px 0;
   margin-bottom: 0;
 }
