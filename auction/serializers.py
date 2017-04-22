@@ -21,21 +21,20 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BidSerializer(serializers.HyperlinkedModelSerializer):
-    bidder = serializers.ReadOnlyField(source='bidder.username')
+    bidder = serializers.ReadOnlyField(source='bidder.nickname')
     #  bidder = serializers.HyperlinkedRelatedField(
-    #      view_name='bidder-detail',
-    #      lookup_field='username',
-    #      many=False,
-    #      read_only=True
-    #  )
-    good = serializers.ReadOnlyField(source='good.name')
-    #  good = serializers.HyperlinkedRelatedField(
-    #      view_name='good-detail',
-    #      #  lookup_field='id',
+    #      view_name='account-detail',
     #      lookup_field='pk',
     #      many=False,
     #      read_only=True
     #  )
+    #  good = serializers.ReadOnlyField(source='good.name')
+    good = serializers.HyperlinkedRelatedField(
+        view_name='good-detail',
+        lookup_field='pk',
+        many=False,
+        read_only=True
+    )
 
     class Meta:
         model = Bid

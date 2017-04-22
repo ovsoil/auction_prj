@@ -6,9 +6,11 @@ from rest_framework import views, viewsets, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from auction.models import Good, Bid
+from authentication.models import Account
 from auction.serializers import GoodSerializer, BidSerializer
-from authentication.permissions import IsSupperUser
+from authentication.permissions import IsSupperUser, IsAuthenticated
 #  from auction.authenticators import QuietBasicAuthentication
+from django.contrib.auth.models import AnonymousUser
 import json
 
 
@@ -42,13 +44,15 @@ class BidViewSet(viewsets.ModelViewSet):
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)
         if self.request.method == 'POST':
-            return (permissions.IsAuthenticated(),)
+            return (IsAuthenticated(),)
         return (IsSupperUser(),)
 
     def perform_create(self, serializer):
-        serializer.save(bidder=self.request.user,
-                        good=Good.objects.get(id=self.request.data['good_id']))
-
+        if self.request.user.is_authenticated():
+            serializer.save(bidder=user, good=Good.objects.get(id=self.request.data['good_id']))
+        else:
+            user = Account.objects.get(username=self.request.session['user']['username'])
+            serializer.save(bidder=user, good=Good.objects.get(id=self.request.data['good_id']))
         return super(BidViewSet, self).perform_create(serializer)
 
 

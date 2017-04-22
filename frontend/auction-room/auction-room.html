@@ -19,6 +19,9 @@
         </p>
         </timer>
       </div>
+      <div ng-if="$ctrl.status == 'done'">
+        <p class="status-text">拍卖结束：{{ $ctrl.good.stop_time | date:'yyyy/MM/dd H:mm:ss'}}</p>
+      </div>
 </nav>
 
 <div class="container-fluid">
@@ -153,44 +156,29 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <div class="page-header">
-        <h2>
-          <small>出价记录</small>
-        </h2>
+        <h2><small>出价记录</small></h2>
       </div>
-      <dl>
-        <p class="bid-record"> {{$ctrl.bids.length == 0 ? "无人出价" : ""}} </p>
-        <dt>
-        <ul class="list-group bid-record">
-          <li ng-repeat="bid in $ctrl.bids" class="list-group-item list-group-item">
-            <div class="box-3col">
-              <div id = "box-first">
-                <img src="/static/images/logo.png" alt="..." height="28">
-              </div>
-              <p id="box-second"> {{bid.bidder}}</p>
-              <p id="box-third"> {{bid.price}}</p>
-            </div>
-            <!-- <div class="media"> -->
-            <!--   <div class="media-left"> -->
-            <!--     <img class="media-object" src="/static/images/logo.png" alt="..." height="28"> -->
-            <!--   </div> -->
-            <!--   <div class="media-body" align="right"> -->
-            <!--     <p>{{bid.bidder}}</p> -->
-            <!--   </div> -->
-              <!-- <span class="badge">{{bid.price}}</span> -->
-            </div>
-          </li>
-        </ul>
-        </dt>
-      </dl>
-    </div>
 
+      <div>
+        <table class="table table-hover">
+          <tbody>
+            <tr ng-repeat="bid in $ctrl.bids">
+              <td><a href="#"><img class="profile" src="/static/images/profile-1.png" alt="" height="28"></a> {{bid.bidder}}</td>
+              <td>{{bid.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <div class="page-header">
         <h2><small>产品详情</small></h2>
       </div>
         <div class="good-detail" ng-bind-html = "$ctrl.details"></div>
     </div>
-
   </div>
 
   <!-- contact us -->
@@ -203,7 +191,7 @@
         </div>
         <div class="card-block">
           <h4 class="card-title">公司名字</h4>
-          <img src="/static/images/card.jpg" height="400" width="400"></img>
+          <img src="/static/images/card.jpg"></img>
           <p class="card-text">扫码关注·联系我们</p>
           <h3 class="card-text">联系电话</h3>
         </div>
@@ -221,22 +209,22 @@
     </div>
   </div>
 
-      <!-- modal dialog for auction rules-->
-      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="modal-auction-rules">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">拍卖规则</h4>
-            </div>
-            <div class="modal-body">
-              <p>One:</p>
-              <p>Two:</p>
-              <p>Three:</p>
-            </div>
-            <!-- <button class="modal-footer btn btn-block" data-dismiss="modal">我知道了</button> -->
-            <button class="modal-body btn btn-block" data-dismiss="modal">我知道了</button>
-          </div>
+  <!-- modal dialog for auction rules-->
+  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="modal-auction-rules">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">拍卖规则</h4>
         </div>
+        <div class="modal-body">
+          <p>One:</p>
+          <p>Two:</p>
+          <p>Three:</p>
+        </div>
+        <button class="modal-body btn btn-block" data-dismiss="modal">我知道了</button>
       </div>
+    </div>
+  </div>
+
   <br><br><br>

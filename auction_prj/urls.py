@@ -50,8 +50,8 @@ urlpatterns = [
     url(r'^redactor/', include('redactor.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/v1/auth/$', AuthView.as_view(), name='authenticate'),
-    url(r'^auth/wechat/$', WechatAuthView.as_view(), name='wechat_auth'),
-    url(r'^register/wechat/$', WechatRegisterView.as_view(), name='wechat_register'),
+    url(r'^api/v1/auth/wechat/$', WechatAuthView.as_view(), name='wechat_auth'),
+    url(r'^api/v1/login/wechat/$', WechatRegisterView.as_view(), name='wechat_login'),
     url(r'^wechat-main/$', WechatMain, name='wechat_main'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

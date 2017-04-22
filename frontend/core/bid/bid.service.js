@@ -17,7 +17,7 @@
             filterbygood: filterbygood
         };
 
-        function filterbyuser(username) {
+        function filterbyuser(userId) {
             return $http.get('/api/v1/users/' + userId + '/bids/')
         }
 

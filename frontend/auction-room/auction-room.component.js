@@ -57,17 +57,18 @@
         }
 
         function setBids() {
-            Bid.filterbygood($routeParams.goodId).
-                success(function(data, status, headers, config) {
-                    self.bids = data;
+            Bid.filterbygood($routeParams.goodId).then(
+                function(data, status, headers, config) {
+                    self.bids = data.data;
                     // TODO: check consistency of the bids data
                     // 时间顺序是否与价格顺序一致
                     self.price = self.proposal_price();
-                }).
-                error(function(data, status, headers, config) {
+                },
+                function(data, status, headers, config) {
                     self.bids = [];
                     alert(data);
-                });
+                }
+            );
         }
 
         function valid_price(price) {

@@ -82,7 +82,7 @@ class AccountAdmin(UserAdmin):
     list_filter = ('is_superuser',)
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
-        ('Personal info', {'fields': ('phone', 'avatar',)}),
+        ('Personal info', {'fields': ('nickname', 'phone', 'avatar',)}),
         ('Permissions', {'fields': ('is_superuser',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin

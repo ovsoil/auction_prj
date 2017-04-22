@@ -12,6 +12,10 @@
 .btn-twitter:hover,a.btn-twitter:hover{background:#21acd1;border-color:#21acd1}a
 .btn-buy{font-size:16px;text-transform:none}
 
+.row {
+  margin-left:0px;
+  margin-right:0px;
+}
 
 .status-bar {
   max-height:24px;
@@ -40,6 +44,11 @@
 
 .card-block p{
   margin-bottom: 4px;
+}
+
+.card-block img{
+  width: 500;
+  height: 500;
 }
 
 .page-header {
@@ -145,8 +154,9 @@
   padding: 10px 0;
   margin-bottom: 0;
 }
+
 .good-detail img {
-  max-width:320px;
+  width: 100%;
 }
 
 .btn-cta-primary {
@@ -167,8 +177,8 @@
 }
 
 .contact-block img {
-  max-width:240px;
-  max-height:240px;
+  max-width:300px;
+  max-height:300px;
 }
 
 .nav-tabs{
