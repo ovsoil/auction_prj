@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from auction.models import Good, Bid, Image
@@ -17,7 +19,7 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_images(self, obj):
         files = [getattr(obj, 'image%02d' % i).name for i in range(1, 10)]
-        return [staticfiles_storage.url(f) for f in files if f]
+        return [os.path.join(settings.MEDIA_URL, f) for f in files if f]
 
 
 class BidSerializer(serializers.HyperlinkedModelSerializer):

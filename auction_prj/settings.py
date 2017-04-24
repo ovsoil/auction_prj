@@ -144,7 +144,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend"),
-    os.path.join(BASE_DIR, "data")
 ]
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -156,7 +155,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Media files
-#  MEDIA_ROOT = os.path.join(BASE_DIR, "data"),
 MEDIA_ROOT = os.path.join(BASE_DIR, 'data')
 MEDIA_URL = '/media/'
 
