@@ -49,10 +49,11 @@ class BidViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated():
-            serializer.save(bidder=user, good=Good.objects.get(id=self.request.data['good_id']))
+            serializer.save(bidder=self.request.user, good=Good.objects.get(id=self.request.data['good_id']))
         else:
-            user = Account.objects.get(username=self.request.session['user']['username'])
-            serializer.save(bidder=user, good=Good.objects.get(id=self.request.data['good_id']))
+            if self.request.session.get('user'):
+                user = Account.objects.get(username=self.request.session['user']['username'])
+                serializer.save(bidder=user, good=Good.objects.get(id=self.request.data['good_id']))
         return super(BidViewSet, self).perform_create(serializer)
 
 

@@ -174,8 +174,13 @@ REST_FRAMEWORK = {
     #     'rest_framework.authentication.SessionAuthentication',
     # )
     # 'PAGE_SIZE': 10
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    )
 }
 
+# redactor
 REDACTOR_OPTIONS = {'lang': 'en'}
 REDACTOR_UPLOAD = 'upload/'
 
