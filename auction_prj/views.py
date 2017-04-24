@@ -3,16 +3,12 @@ from django.views.generic.base import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.shortcuts import redirect
-#  from weixin.client import WeixinAPI
-from weixin.client import WeixinMpAPI
-from weixin.oauth2 import OAuth2AuthExchangeError
-from django.http import HttpResponse, HttpResponseServerError, Http404
-import hashlib
-import json
-#  from lxml import etree
 from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseServerError, Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+import hashlib
 
 
 WEIXIN_TOKEN = 'testtoken'
@@ -28,8 +24,8 @@ class IndexView(TemplateView):
 
 @csrf_exempt
 def WechatMain(request):
-    """
-    """
+    '''
+    '''
     if request.method == "GET":
         signature = request.GET.get("signature", None)
         timestamp = request.GET.get("timestamp", None)
@@ -49,3 +45,11 @@ def WechatMain(request):
         #  request_xml = etree.fromstring(xml_str)
         #  response_xml = request_xml
         return HttpResponse('Hello wechat')
+
+
+class WebInfo(APIView):
+    """
+    List all web info
+    """
+    def get(self, request, format=None):
+        return Response(settings.WEB_INFO)

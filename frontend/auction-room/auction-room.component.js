@@ -19,6 +19,7 @@
         self.submit_bid = submit_bid;
         self.auction_begin = auction_begin;
         self.auction_done = auction_done;
+        self.get_info = get_info;
         self.start_time = new Date();
         self.stop_time = new Date();
 
@@ -28,6 +29,7 @@
             self.bids = [];
             self.price = 0;
             self.user_num = 0;
+            self.get_info();
             self.good = Good.get({goodId: $routeParams.goodId}, function(good) {
                 self.setImage(good.images[0]);
                 self.start_time.setTime(Date.parse(good.start_time));
@@ -126,6 +128,17 @@
                 // TODO 流拍
                 alert("Not bidder!")
             }
+        }
+
+        function get_info() {
+            $http.get('/api/v1/webinfo/').then(
+                function(data, status, headers, config) {
+                    self.webinfo = data.data;
+                },
+                function(data, status, headers, config) {
+                    alert(data);
+                }
+            );
         }
     }
 

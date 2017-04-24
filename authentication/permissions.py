@@ -9,7 +9,7 @@ class IsAccountOwner(permissions.BasePermission):
 
 
 class IsSupperUser(permissions.BasePermission):
-    def has_permission(self, request, view, obj):
+    def has_permission(self, request, view):
         if request.user:
             return request.user.is_superuser
         return False

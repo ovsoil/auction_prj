@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Django settings for auction_prj project.
 
@@ -192,3 +194,12 @@ APP_SECRET = '801932f539f215b00f89aed043e57d4e'
 HOST = 'a3bqnww.hk1.mofasuidao.cn'
 #  REDIRECT_URI = 'https://weauction.herokuapp.com/login/wechat/'
 REDIRECT_URI = 'https://a3bqnww.hk1.mofasuidao.cn/api/v1/login/wechat/'
+
+
+# web info
+WEB_INFO = {
+    'company': '上海尚玉文化发展有限公司',
+    'address': '上海市黄浦区浙江中路188号中福古玩城1C-13号',
+    'phone': '021-63506723',
+    'card': '/static/images/card.jpg'
+}

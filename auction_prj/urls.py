@@ -21,7 +21,7 @@ from auction.views import GoodViewSet, BidViewSet
 from auction.views import GoodBidViewSet, AccountBidViewSet
 from authentication.views import AccountViewSet
 from authentication.views import AuthView, WechatAuthView, WechatRegisterView
-from auction_prj.views import IndexView, WechatMain
+from auction_prj.views import IndexView, WebInfo, WechatMain
 #  from django.contrib.staticfiles import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -52,6 +52,7 @@ urlpatterns = [
     url(r'^api/v1/auth/$', AuthView.as_view(), name='authenticate'),
     url(r'^api/v1/auth/wechat/$', WechatAuthView.as_view(), name='wechat_auth'),
     url(r'^api/v1/login/wechat/$', WechatRegisterView.as_view(), name='wechat_login'),
+    url(r'^api/v1/webinfo/$', WebInfo.as_view(), name='web_info'),
     url(r'^wechat-main/$', WechatMain, name='wechat_main'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
