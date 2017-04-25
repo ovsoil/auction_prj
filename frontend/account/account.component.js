@@ -1,57 +1,39 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('account')
-    .component('account', {
-      templateUrl: '/static/account/account.html',
-      controller: AccountController
-    });
+    angular
+        .module('account')
+        .component('account', {
+            templateUrl: '/static/account/account.html',
+            controller: AccountController
+        });
 
-  AccountController.$inject = ['$location', '$routeParams', 'User'];
+    AccountController.$inject = ['$location', '$routeParams', 'User'];
 
-  /**
-  * @namespace AccountController
-  */
-  function AccountController($location, $routeParams, User) {
-    var self = this;
+    function AccountController($location, $routeParams, User) {
+        var self = this;
+        self.user = undefined;
+        activate();
 
-    self.user = undefined;
+        function activate() {
+            var userId = $routeParams.userId.substr(1)
+            // User.get({userId: userId}, function(user) {
+            //     self.user = user;
+            // });
+            User.get({userId: userId}).
+                $promise.
+                then(userSuccessFn).
+                catch(userErrorFn);
 
-    activate();
-
-    /**
-    * @name activate
-    * @desc Actions to be performed when this controller is instantiated
-    * @memberOf thinkster.users.controllers.UserController
-    */
-    function activate() {
-      // User.get({userId: $routeParams.userId}, function(user) {
-      //     self.user = user;
-      // });
-      User.get({userId: $routeParams.userId}).
-            $promise.
-            then(userSuccessFn).
-            catch(userErrorFn);
-
-      /**
-      * @name userSuccessUser
-      * @desc Update `user` on viewmodel
-      */
-      function userSuccessFn(data, status, headers, config) {
-        self.user = data;
-      }
+            function userSuccessFn(data, status, headers, config) {
+                self.user = data;
+            }
 
 
-      /**
-      * @name userErrorFn
-      * @desc Redirect to index and show error Snackbar
-      */
-      function userErrorFn(data, status, headers, config) {
-        $location.url('/');
-        // Snackbar.error('That user does not exist.');
-      }
+            function userErrorFn(data, status, headers, config) {
+                $location.url('/');
+            }
+        }
     }
-  }
 
 })();

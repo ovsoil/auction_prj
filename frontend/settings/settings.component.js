@@ -75,7 +75,7 @@
 
 
         function update() {
-            User.update({userId: $routeParams.userId.substr(1)}, self.user).
+            User.update({userId: userId}, self.user).
                 $promise.
                 then(updateUserSuccessFn).
                 catch(updateUserErrorFn);

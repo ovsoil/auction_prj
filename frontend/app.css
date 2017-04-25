@@ -195,3 +195,12 @@
 .container-fluid{
   padding: 0 0;
 }
+
+.bid-list{
+  vertical-align: middle;
+}
+
+.avatar{
+  width: 28px;
+  height: 28px;
+}

@@ -163,7 +163,7 @@
         <table class="table table-hover">
           <tbody>
             <tr ng-repeat="bid in $ctrl.bids">
-              <td><a href="#"><img class="profile" src="/static/images/profile.png" alt="" height="28"></a> {{bid.bidder}}</td>
+              <td class="bid-list" ><a href="/+{{ bid.bidder.id }}"><img class="avatar" src="{{ bid.bidder.avatar }}" alt=""></a> {{ bid.bidder.nickname }}</td>
               <td>{{bid.price}}</td>
             </tr>
           </tbody>

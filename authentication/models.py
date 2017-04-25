@@ -35,7 +35,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     # for wechat user
     openid = models.CharField(max_length=64)
     nickname = models.CharField(max_length=64)
-    avatar = models.ImageField(upload_to='images/', max_length=255, blank=True, null=True)
+    avatar = models.ImageField(upload_to='images/', max_length=255, blank=True)
     phone = models.CharField(max_length=20, blank=True)
 
     is_superuser = models.BooleanField(default=False)
@@ -48,6 +48,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     # for createsupoeruser
     REQUIRED_FIELDS = ['email']
+
+    @property
+    def avatar_url(self):
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        else:
+            return '/static/images/avatar.png'
 
     def __unicode__(self):
         return self.email

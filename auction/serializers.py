@@ -4,6 +4,8 @@ from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from auction.models import Good, Bid, Image
 from django.contrib.staticfiles.storage import staticfiles_storage
+from authentication.models import Account
+from authentication.serializers import AccountSerializer
 
 
 class GoodSerializer(serializers.HyperlinkedModelSerializer):
@@ -22,15 +24,26 @@ class GoodSerializer(serializers.HyperlinkedModelSerializer):
         return [os.path.join(settings.MEDIA_URL, f) for f in files if f]
 
 
+class AccountField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {
+            'id': value.id,
+            'nickname': value.nickname,
+            'avatar': value.avatar_url
+        }
+
+
 class BidSerializer(serializers.HyperlinkedModelSerializer):
-    bidder = serializers.ReadOnlyField(source='bidder.nickname')
     #  bidder = serializers.HyperlinkedRelatedField(
     #      view_name='account-detail',
     #      lookup_field='pk',
     #      many=False,
     #      read_only=True
     #  )
-    #  good = serializers.ReadOnlyField(source='good.name')
+    #  bidder = serializers.ReadOnlyField(source='bidder.nickname')
+    #  bidder = AccountSerializer(many=False, read_only=True)
+    bidder = AccountField(many=False, read_only=True)
+
     good = serializers.HyperlinkedRelatedField(
         view_name='good-detail',
         lookup_field='pk',
